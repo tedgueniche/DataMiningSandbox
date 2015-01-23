@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import utilities.SV;
+
 public class LocalOutlierFactor {
 
 	
@@ -16,25 +18,42 @@ public class LocalOutlierFactor {
 	/**
 	 * Distance matrix (supposed to be triangular)
 	 */
-	public Double[][] distances;
+	//public Double[][] distances;
 	
+	/**SV of each dimension*/
+	private List<SV> svsOfMatrixs = new ArrayList<>();
 	/**
 	 * 
 	 */
-	public HashMap<LOFPoint, List<LOFPoint>> kNeighbors;
+	public HashMap<LOFPoint, List<LOFPoint>> kNeighbors = new HashMap<>();
 	
 	
 	/**
-	 * Dataset used for LOF
+	 * Dataset used for LOF.
 	 */
 	public List<LOFPoint> dataset;
 
-	
+	/**
+	 * 
+	 * @param k Neighbour count to use for kNN
+	 * @param dataset Assumed non-empty and that all LOFPoint have the same number and quality of dimensions
+	 */
 	public LocalOutlierFactor(int k, List<LOFPoint> dataset) {
 		
 		this.k = k;
 		this.dataset = dataset;
-		this.distances = new Double[dataset.size()][dataset.size()];
+		//this.distances = new Double[dataset.size()][dataset.size()];
+		final int dimensionCount = dataset.get(0).values.getCount();
+		
+		//Go through each dimension, creating an SV for each dimension
+		for(int dimension = 0; dimension < dimensionCount; dimension++){
+			SV newSV = new SV();
+			for(LOFPoint point : dataset){
+				double dimValue = point.values.get(dimension);
+				newSV.add(dimValue);
+			}
+			svsOfMatrixs.add(newSV);
+		}
 	}
 	
 	public HashMap<LOFPoint, Double> LOF() {
@@ -97,7 +116,7 @@ public class LocalOutlierFactor {
 	private Double reachabilityDistance(LOFPoint A, LOFPoint B) {
 		
 		Double kDistanceB = kDistance(B, nearestNeighbors(k, B, dataset));
-		Double distAB = dist("euclidian", A, B);
+		Double distAB = dist("manhattan", A, B);
 		
 		return Math.max(kDistanceB, distAB);
 	}
@@ -107,7 +126,7 @@ public class LocalOutlierFactor {
 	 * Return the K distance of sv in this dataset
 	 */
 	private Double kDistance(LOFPoint point, List<LOFPoint> kneighbors) {
-		return dist("euclidian", point, kneighbors.get(kneighbors.size() - 1));
+		return dist("manhattan", point, kneighbors.get(kneighbors.size() - 1));
 	}
 	
 	
@@ -117,17 +136,17 @@ public class LocalOutlierFactor {
 	public List<LOFPoint> nearestNeighbors(int k, LOFPoint point, List<LOFPoint> dataset) {
 		
 		//If the kneighbors have not been recorded, calculate
-		if(kNeighbors.containsKey(point)) {
+		if(!kNeighbors.containsKey(point)) {
 			
 			List<LOFPoint> curNeighbors = new ArrayList<LOFPoint>(dataset);
 			curNeighbors.remove(point);
 			
 			//Calculate and recorded distances. Sort points based on their distance to the current point.
-			HashMap<LOFPoint, Double> distances = new HashMap<LOFPoint, Double>();
+			HashMap<LOFPoint, Double> thisToOtherDistance = new HashMap<LOFPoint, Double>();
 			for(LOFPoint pt : curNeighbors) {	
-				distances.put(pt, dist("euclidian", point, pt));
+				thisToOtherDistance.put(pt, dist("pearson", point, pt));
 			}
-			Collections.sort(curNeighbors, (l1, l2) -> (int) Math.signum(distances.get(l1) - distances.get(l2)));
+			Collections.sort(curNeighbors, (l1, l2) -> (int) Math.signum(thisToOtherDistance.get(l1) - thisToOtherDistance.get(l2)));
 			curNeighbors.subList(k, curNeighbors.size()).clear();
 			
 			//Now put the kneighbors in the map
@@ -138,7 +157,7 @@ public class LocalOutlierFactor {
 	}
 	
 	
-	public static Double dist(String distType, LOFPoint A, LOFPoint B) {
+	public  Double dist(String distType, LOFPoint A, LOFPoint B) {
 		
 		if(distType == "euclidian") {
 			return distEuclidian(A,B);
@@ -146,15 +165,54 @@ public class LocalOutlierFactor {
 		else if(distType ==  "pearson") {
 			return distPearson(A,B);
 		}
+		else if(distType == "manhattan"){
+			return distManhattan(A, B);
+		}
 		else {
 			return null;
 		}
 	}
 	
 	
-	public static Double distPearson(LOFPoint A, LOFPoint B) {
+	/**
+	 * Calculate distance of two points in the dataset <a href="http://bonsai.hgc.jp/~mdehoon/software/cluster/manual/Distance.html">based on the pearson correlation</a>. These assumes that the points are in the dataset.
+	 * 
+	 * The distance dist(a,b) == dist(b,a)
+	 * 
+	 * @param A First in comparison
+	 * @param B Second in comparison
+	 * @return A distance measure between the two given points.
+	 * 
+	 */
+	private Double distPearson(LOFPoint A, LOFPoint B) {
+		final int dimensionCount = A.values.size();
+		double runningDistance = 0;
+		for(int dimension = 0; dimension < dimensionCount; dimension++){
+			double xIComponent = (A.values.get(dimension) - A.values.mean())/A.values.sd();
+			double yIComponent = (B.values.get(dimension) - B.values.mean())/B.values.sd();
+			runningDistance += (xIComponent * yIComponent);
+		}
 		
-		return 0d;
+		return runningDistance/dimensionCount;
+		
+	}
+	
+	/**Returns the city-block (manhattan, taxicab) distance of two points in the dataset. 
+	 * 
+	 * @param A First in comparison
+	 * @param B Secodn in comparison
+	 * @return The manhattan distance
+	 */
+	private Double distManhattan(LOFPoint A, LOFPoint B) {
+		final int dimensionCount = A.values.size();
+		double runningDistance = 0;
+		for(int dimension = 0; dimension < dimensionCount; dimension++){
+			double xIComponent = A.values.get(dimension);
+			double yIComponent = B.values.get(dimension);
+			runningDistance += Math.abs(xIComponent - yIComponent);
+		}
+		
+		return runningDistance/dimensionCount;
 		
 	}
 	
@@ -162,7 +220,7 @@ public class LocalOutlierFactor {
 	/**
 	 * Euclidian distance between A and B
 	 */
-	public static Double distEuclidian(LOFPoint A, LOFPoint B) {
+	public Double distEuclidian(LOFPoint A, LOFPoint B) {
 		
 		//if these points are of difference dimensions, the longer is much bigger*/
 		int sizeDiff= A.values.size() - B.values.size();

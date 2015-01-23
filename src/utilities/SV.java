@@ -2,6 +2,8 @@ package utilities;
 
 import java.io.Serializable;
 import java.util.AbstractList;
+import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Vector;
 
 
@@ -239,5 +241,15 @@ public class SV implements Serializable {
 		System.out.println("== "+ title + " ===");
 		printStats();
 	}
+
+	/**Returns the number of values in the SV
+	 * 
+	 * @return The cardinality of this SV
+	 */
+	public int getCount() {
+		return this.count;
+	}
+	
+	
 
 }
