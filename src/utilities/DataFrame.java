@@ -43,7 +43,7 @@ public class DataFrame {
 	}
 	
 	/**
-	 * Get the number of columns in each row
+	 * Get the number of columns in each row.
 	 * 
 	 * @return Number of columns
 	 */
@@ -52,7 +52,7 @@ public class DataFrame {
 	}
 	
 	/**
-	 * Get the number of columns in each row
+	 * Get the number of columns in each row.
 	 * 
 	 * @return Number of columns
 	 */
@@ -61,7 +61,7 @@ public class DataFrame {
 	}
 	
 	/**
-	 * Returns a cell value from this table
+	 * Returns a cell value from this table. The rows and column are zero-indexed.
 	 * 
 	 * @param row
 	 *            Row to select
@@ -74,7 +74,7 @@ public class DataFrame {
 	}
 	
 	/**
-	 * Returns the {@link utilities.SV} that represents the given column.
+	 * Returns the {@link utilities.SV} that represents the given column. The columns are zero-indexed.
 	 * 
 	 * @param column
 	 *            Column number to select
@@ -85,7 +85,7 @@ public class DataFrame {
 	}
 	
 	/**
-	 * Returns the {@link utilities.SV} that represents the given row.
+	 * Returns the {@link utilities.SV} that represents the given row. The rows are zero-indexed.
 	 * 
 	 * @param row
 	 *            Row number to select

@@ -167,15 +167,7 @@ public class SV implements Serializable {
 	}
 	
 	public Double sd() {
-		
-		Double sumsd = 0d;
-		Double mean = mean();
-		
-		for(Double d : v) {
-			sumsd += Math.pow((d - mean), 2);
-		}
-		
-		return Math.sqrt(sumsd / size());
+		return Math.sqrt(this.var());
 	}
 	
 	public Double var() {
