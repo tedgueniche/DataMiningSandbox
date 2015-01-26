@@ -9,8 +9,9 @@ import java.util.Vector;
 
 
 /**
- * Statistical collection helper
- * Ordered
+ * An {@link #SV()} represents an ordered series of data.
+ * 
+ * 
  */
 public class SV implements Serializable {
 
