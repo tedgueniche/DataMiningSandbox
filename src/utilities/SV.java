@@ -166,10 +166,18 @@ public class SV implements Serializable {
 		return mean;
 	}
 	
+	/**Returns the unbaiased sample standard deviation of all data points added to this vector
+	 * 
+	 * @return The sample standard deviation
+	 */
 	public Double sd() {
 		return Math.sqrt(this.var());
 	}
 	
+	/**Returns the unbaiased sample variance of all data points added to this vector
+	 * 
+	 * @return The sample variance
+	 */
 	public Double var() {
 		
 		Double sumsd = 0d;
@@ -179,7 +187,7 @@ public class SV implements Serializable {
 			sumsd += Math.pow((d - mean), 2);
 		}
 		
-		return (sumsd / size());
+		return sumsd / (size()-1);
 	}
 
 	
