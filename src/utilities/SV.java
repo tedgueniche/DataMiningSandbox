@@ -56,7 +56,7 @@ public class SV implements Serializable {
 		
 		boolean status = v.add(item);
 		if(status == true) {
-		
+			
 			if(item > max) {
 				max = item;
 			}
@@ -250,6 +250,23 @@ public class SV implements Serializable {
 		return this.count;
 	}
 	
+	public double shift(Integer item) {
+		Double removedItem = v.remove(0);
+		this.add(item);
+		return removedItem;
+	}
+	
+	public double shift(Float item) {
+		Double removedItem = v.remove(0);
+		this.add(item);
+		return removedItem;
+	}
+	
+	public double shift(Double item) {
+		Double removedItem = v.remove(0);
+		this.add(item);
+		return removedItem;
+	}
 	
 
 }
