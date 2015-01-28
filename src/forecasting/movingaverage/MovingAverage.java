@@ -3,6 +3,7 @@
  */
 package forecasting.movingaverage;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Vector;
@@ -134,15 +135,61 @@ public class MovingAverage {
 	/**
 	 * This method calculates the moving median
 	 * 
-	 * @return the moving median
+	 * @return the moving median value
 	 */
-	public double movingMedian() {
+	public double movingMedianValue() {
 		Vector<Double> list = svList.getVector();
-		int middle = svList.size()/2;
-		return svList.get(middle);
+		Collections.sort(list);
+		int listSize = list.size();
+		if (listSize%2 == 0 && listSize > 1) {
+			return ((svList.get((listSize/2)-1)+svList.get(listSize/2))/2);
+		} else if (listSize > 1){
+			return svList.get(listSize/2);
+		} else if (listSize == 1) {
+			return svList.get(0);
+		} else {
+			return 0;
+		}
 	}
 	
-	public void movingAverageRegression() {
+	/**
+	 * This method calculates the moving median with a specified number of points on each side
+	 * 
+	 * @return the moving median to a specified number of points on each side
+	 */
+	public double movingMedian(int numPoints) {
+		int calcNumPoints = (numPoints*numPoints)+1;
+		int listSize = svList.size();
+		int startPoint = listSize-calcNumPoints-1;
+		if (calcNumPoints < listSize) {
+			startPoint = 0;
+		}
 		
+		int average = 0;
+		
+		for (int x=startPoint; x< listSize; x++) {
+			average += svList.get(x);
+		}
+		return average;
+	}
+
+	/**
+	 * This method calculates the moving average regression using the regression formula:
+	 * 				Xt = mu + (1 + theta_1 * B_1 + ... + theta_q *B_q)eps_t
+	 * 
+	 * @param eps
+	 * 				the value of epsilon at a point in time
+	 * @param mu
+	 * 				the value of mu
+	 * 
+	 * @return the moving average regression
+	 */
+	public double getMovingAverageRegression(double eps, double mu) {
+		double Xt = mu + eps;
+		Iterator<Double> iterator = svList.getVector().iterator();
+		while (iterator.hasNext()) {
+			Xt += (iterator.next()*eps);
+		}
+		return Xt;
 	}
 }
