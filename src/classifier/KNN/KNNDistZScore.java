@@ -2,15 +2,15 @@ package classifier.KNN;
 
 import java.util.List;
 
-public class KNN_Dist_zScore extends KNN_Dist {
+public class KNNDistZScore extends KNNDist {
 
 	/**
 	 * Returns the distance between two instances.
 	 * The distance is measured with the z score statistic.
 	 */
 	@Override
-	public double dist( KNN_Instance instanceA, 
-						KNN_Instance instanceB, 
+	public double dist( KNNInstance instanceA, 
+						KNNInstance instanceB, 
 						List<Double> stdDev, 
 						List<Double> means ) {
 		

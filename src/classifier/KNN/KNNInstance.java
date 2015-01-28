@@ -7,7 +7,7 @@ import java.util.List;
  * Class used in conjunction with the KNN Algorithm.
  * It holds the features in N dimensions
  */
-public class KNN_Instance {
+public class KNNInstance {
 	
 	/**
 	 * The features we hold
@@ -19,7 +19,7 @@ public class KNN_Instance {
 	/**
 	 * Basic CTor
 	 */
-	public KNN_Instance() {
+	public KNNInstance() {
 		this.features = new ArrayList<Double>();
 		this.referenceObject = null;
 		this.distance = 0.0;
@@ -28,7 +28,7 @@ public class KNN_Instance {
 	/**
 	 * CTor with features to copy
 	 */
-	public KNN_Instance( List<Double> features ) {
+	public KNNInstance( List<Double> features ) {
 		this.features = new ArrayList<Double>(features);
 		this.referenceObject = null;
 		this.distance = 0.0;

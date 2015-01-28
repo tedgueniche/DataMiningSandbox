@@ -2,7 +2,7 @@ package classifier.KNN;
 
 import java.util.List;
 
-public class KNN_Dist_Euclidean extends KNN_Dist {
+public class KNNDistEuclidean extends KNNDist {
 
 	/**
 	 * Returns the distance between two instances.
@@ -10,8 +10,8 @@ public class KNN_Dist_Euclidean extends KNN_Dist {
 	 * d(p,q) = sqrt((q1-p1)^2 + (q2-p2)^2 + ... + (qn-pn)^2)
 	 */
 	@Override
-	public double dist( KNN_Instance instanceA, 
-						KNN_Instance instanceB, 
+	public double dist( KNNInstance instanceA, 
+						KNNInstance instanceB, 
 						List<Double> stdDev, 
 						List<Double> means ) {
 		

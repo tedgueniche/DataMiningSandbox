@@ -14,20 +14,20 @@ public class KNN {
 	 * KNN Measures
 	 */
 	private int K;
-	private KNN_Dist distance;
+	private KNNDist distance;
 	private List<Double> stdDev;
 	private List<Double> mean;
 	
 	/**
 	 * The training set
 	 */
-	private List<KNN_Instance> trainingInstances;
+	private List<KNNInstance> trainingInstances;
 	
 	/**
 	 * Distance comparator for the KNN_Instances
 	 */
-	private Comparator<KNN_Instance> distComparator = new Comparator<KNN_Instance>() {
-		@Override public int compare(KNN_Instance o1, KNN_Instance o2) {
+	private Comparator<KNNInstance> distComparator = new Comparator<KNNInstance>() {
+		@Override public int compare(KNNInstance o1, KNNInstance o2) {
 			return (Double.compare(o1.getDistance(), o2.getDistance()));
 		}
 	};
@@ -35,7 +35,7 @@ public class KNN {
 	/**
 	 * CTor with distance measure
 	 */
-	public KNN( KNN_Dist distance, int K ) {
+	public KNN( KNNDist distance, int K ) {
 		this.distance = distance;
 		this.K = K;
 	}
@@ -45,7 +45,7 @@ public class KNN {
 	 * Input :	A List of KNN_Feature
 	 * Output :	If training successful
 	 */
-	public void train( List<KNN_Instance> trainingSet ) {
+	public void train( List<KNNInstance> trainingSet ) {
 		
 		// calculate statistics measures
 		if ( distance.requiresStats() ) {
@@ -56,21 +56,21 @@ public class KNN {
 		}
 		
 		// copy the instances
-		trainingInstances = new ArrayList<KNN_Instance>(trainingSet);
+		trainingInstances = new ArrayList<KNNInstance>(trainingSet);
 	}
 	
 	/**
 	 * Find the closest neighbors
 	 */
-	public List<KNN_Instance> findKNN( KNN_Instance instance ) {
+	public List<KNNInstance> findKNN( KNNInstance instance ) {
 		
 		// get all distances
-		ArrayList<KNN_Instance> distances = new ArrayList<KNN_Instance>();
+		ArrayList<KNNInstance> distances = new ArrayList<KNNInstance>();
 		double minDistance = Double.MAX_VALUE;
 		boolean sortList = true;
 		
 		// check all neighbors
-		for ( KNN_Instance neighbor : trainingInstances ) {
+		for ( KNNInstance neighbor : trainingInstances ) {
 			
 			// Calculate distance form this object
 			double dist = distance.dist(instance, neighbor, stdDev, mean);
@@ -100,7 +100,7 @@ public class KNN {
 	/**
 	 * calculate statistics on the training set
 	 */
-	private void getStats( List<KNN_Instance> trainingSet ) {
+	private void getStats( List<KNNInstance> trainingSet ) {
 			
 		// init the arrays
 		if ( trainingSet.size() == 0 ) {
