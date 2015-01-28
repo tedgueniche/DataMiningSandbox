@@ -10,7 +10,7 @@ import org.junit.Test;
 /**
  * Unit tests for this bitch
  */
-public class LinearRegression_Test {
+public class LinearRegressionTest {
 
 	/**
 	 * Our very own linear regression
