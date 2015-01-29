@@ -37,7 +37,7 @@ public class DataFrame {
 		for (int curDim = 0; curDim < newRow.getCount(); curDim++) {
 			SV thisColumn = columnarData.computeIfAbsent(curDim, createNewSVIfAbsent);
 			Double thisDimValue = newRow.get(curDim);
-			thisColumn.add(thisDimValue);
+			thisColumn.append(thisDimValue);
 		}
 		rows.add(newRow);
 	}

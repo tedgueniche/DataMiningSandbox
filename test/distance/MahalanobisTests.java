@@ -37,7 +37,7 @@ public class MahalanobisTests {
 		
 		for (double[] row : dataToUse) {
 			SV newRow = new SV();
-			Arrays.stream(row).forEachOrdered(newRow::add);
+			Arrays.stream(row).forEachOrdered(newRow::append);
 			parsedData.addRow(newRow);
 		}
 		

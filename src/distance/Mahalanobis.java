@@ -21,7 +21,7 @@ public class Mahalanobis {
 	private SV meanVector = new SV();
 	public Mahalanobis(DataFrame dataset) {
 		for(int col = 0; col < dataset.getNumberOfColumns(); col++){
-			meanVector.add(dataset.getColumnData(col).mean());
+			meanVector.append(dataset.getColumnData(col).getMean());
 		}
 		
 		int numCols = dataset.getNumberOfColumns();
@@ -32,13 +32,13 @@ public class Mahalanobis {
 		 * http://itl.nist.gov/div898/handbook/pmc/section5/pmc541.htm
 		 */
 		for (int variableX = 0; variableX < numCols; variableX++) {
-			covarianceMatrix[variableX][variableX] = dataset.getColumnData(variableX).var();
+			covarianceMatrix[variableX][variableX] = dataset.getColumnData(variableX).getVariance();
 			for (int variableY = variableX + 1; variableY < numCols; variableY++) {
 				
 				double COV = 0;
 				for (int row = 0; row < dataset.getNumberOfRows(); row++) {
-					double xCellDiff = dataset.get(row, variableX) - dataset.getColumnData(variableX).mean();
-					double yCellDiff = dataset.get(row, variableY) - dataset.getColumnData(variableY).mean();
+					double xCellDiff = dataset.get(row, variableX) - dataset.getColumnData(variableX).getMean();
+					double yCellDiff = dataset.get(row, variableY) - dataset.getColumnData(variableY).getMean();
 					COV = COV + xCellDiff * yCellDiff;
 				}
 				COV = COV / (dataset.getNumberOfRows() - 1);

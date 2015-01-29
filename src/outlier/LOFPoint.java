@@ -25,7 +25,7 @@ public class LOFPoint {
 	
 	public LOFPoint(double value) {
 		this();
-		values.add(value);
+		values.append(value);
 	}
 	
 	

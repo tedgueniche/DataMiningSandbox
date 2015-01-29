@@ -50,7 +50,7 @@ public class LocalOutlierFactor {
 			SV newSV = new SV();
 			for(LOFPoint point : dataset){
 				double dimValue = point.values.get(dimension);
-				newSV.add(dimValue);
+				newSV.append(dimValue);
 			}
 			svsOfMatrixs.add(newSV);
 		}
@@ -188,8 +188,8 @@ public class LocalOutlierFactor {
 		final int dimensionCount = A.values.size();
 		double runningDistance = 0;
 		for(int dimension = 0; dimension < dimensionCount; dimension++){
-			double xIComponent = (A.values.get(dimension) - A.values.mean())/A.values.sd();
-			double yIComponent = (B.values.get(dimension) - B.values.mean())/B.values.sd();
+			double xIComponent = (A.values.get(dimension) - A.values.getMean())/A.values.getSD();
+			double yIComponent = (B.values.get(dimension) - B.values.getMean())/B.values.getSD();
 			runningDistance += (xIComponent * yIComponent);
 		}
 		

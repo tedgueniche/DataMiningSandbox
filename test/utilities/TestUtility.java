@@ -14,10 +14,10 @@ public class TestUtility {
 		System.out.println(toTest.getVector());
 		double sd = Math.sqrt(variance);
 		assertEquals(prependTestText + "Count: ", count, toTest.getCount());
-		assertEquals(prependTestText + "Mean: ", mean, toTest.mean(), mean * tolerancePercent);
-		assertEquals(prependTestText + "Variance: ", variance, toTest.var(), variance * tolerancePercent);
-		assertEquals(prependTestText + "SD: ", sd, toTest.sd(), sd * tolerancePercent);
-		assertEquals(prependTestText + "Min: ", min, toTest.min(), 0);
-		assertEquals(prependTestText + "Max: ", max, toTest.max(), 0);	
+		assertEquals(prependTestText + "Mean: ", mean, toTest.getMean(), mean * tolerancePercent);
+		assertEquals(prependTestText + "Variance: ", variance, toTest.getVariance(), variance * tolerancePercent);
+		assertEquals(prependTestText + "SD: ", sd, toTest.getSD(), sd * tolerancePercent);
+		assertEquals(prependTestText + "Min: ", min, toTest.getMin(), 0);
+		assertEquals(prependTestText + "Max: ", max, toTest.getMax(), 0);	
 	}
 }

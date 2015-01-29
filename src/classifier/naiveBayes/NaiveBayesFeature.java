@@ -36,9 +36,9 @@ public class NaiveBayesFeature {
 		
 			SV v = data.get(classe);
 			
-			double tier1 = 1 / Math.sqrt( 2 * Math.PI * v.var());
-			double tier2 = Math.pow(Xi - v.mean(), 2) * -1;
-			double tier3 = 2 * v.var();
+			double tier1 = 1 / Math.sqrt( 2 * Math.PI * v.getVariance());
+			double tier2 = Math.pow(Xi - v.getMean(), 2) * -1;
+			double tier3 = 2 * v.getVariance();
 			double tier4 = Math.exp( (tier2 / tier3) );
 			
 			double score = (tier1 * tier4);

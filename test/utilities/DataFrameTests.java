@@ -24,7 +24,7 @@ public class DataFrameTests {
 		
 		for (double[] row : data) {
 			SV newRow = new SV();
-			Arrays.stream(row).forEachOrdered(newRow::add);
+			Arrays.stream(row).forEachOrdered(newRow::append);
 			parsedData.addRow(newRow);
 		}
 		
