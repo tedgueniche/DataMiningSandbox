@@ -15,8 +15,8 @@ public class TestUtility {
 		double sd = Math.sqrt(variance);
 		assertEquals(prependTestText + "Count: ", count, toTest.getCount());
 		assertEquals(prependTestText + "Mean: ", mean, toTest.mean(), mean * tolerancePercent);
-		assertEquals(prependTestText + "SD: ", sd, toTest.sd(), sd * tolerancePercent);
 		assertEquals(prependTestText + "Variance: ", variance, toTest.var(), variance * tolerancePercent);
+		assertEquals(prependTestText + "SD: ", sd, toTest.sd(), sd * tolerancePercent);
 		assertEquals(prependTestText + "Min: ", min, toTest.min(), 0);
 		assertEquals(prependTestText + "Max: ", max, toTest.max(), 0);	
 	}

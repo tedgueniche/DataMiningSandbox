@@ -187,7 +187,8 @@ public class SV implements Serializable {
 			sumsd += Math.pow((d - mean), 2);
 		}
 		
-		return sumsd / (size()-1);
+		double var = sumsd / (size()-1);
+		return var;
 	}
 
 	

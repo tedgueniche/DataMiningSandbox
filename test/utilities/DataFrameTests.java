@@ -18,7 +18,7 @@ public class DataFrameTests {
 	@Test
 	public void checkColumns() {
 		double[][] data = { { 4.0d, 2.0d, 0.60d }, { 4.2d, 2.1d, 0.59d }, { 3.9d, 2.0d, 0.58 }, { 4.3d, 2.1d, 0.62 },
-				{ 4.1d, 2.2d, 0.62 } };
+				{ 4.1d, 2.2d, 0.63 } };
 		
 		DataFrame parsedData = new DataFrame();
 		
@@ -29,7 +29,7 @@ public class DataFrameTests {
 		}
 		
 		double[] expectedMeans = { 4.10d, 2.08d, 0.604d };
-		double[] expectedVars = { 0.025d, 0.0070d, 0.00135d };
+		double[] expectedVars = { 0.025d, 0.0070d, 0.00043d };
 		double[] expectedMax = { 4.3d, 2.2d, 0.63d };
 		double[] expectedMins = { 3.9d, 2.0d, 0.58d };
 		
