@@ -124,7 +124,7 @@ public class ID3 {
 			}
 			
 			// debug
-			if ( nodeDepth == 0 ) {
+			/*if ( nodeDepth == 0 ) {
 				System.out.println("nodeDepth : " + nodeDepth);
 				System.out.println("bestInformationGain : " + bestInformationGain);
 				System.out.println("indexOfBestAttribute : " + indexOfBestAttribute);
@@ -134,7 +134,7 @@ public class ID3 {
 				System.out.println("smallerSet GOOD count : " + smallerSetGood.size() );
 				System.out.println("smallerSet BAD count : " + smallerSetBad.size() );
 				System.out.println();
-			}
+			}*/
 			
 			// create children and train them
 			biggerChild = new ID3();
