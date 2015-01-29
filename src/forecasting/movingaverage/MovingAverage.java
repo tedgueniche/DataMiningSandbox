@@ -6,6 +6,7 @@ package forecasting.movingaverage;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import utilities.SV;
@@ -29,7 +30,7 @@ public class MovingAverage {
 		if (n <= 0) {
 			return 0;
 		}
-		double sum = svList.sum();
+		double sum = svList.getSum();
 		return (sum/n);
 	}
 
@@ -53,7 +54,7 @@ public class MovingAverage {
 	 * @return the cumulative moving average
 	 */
 	public double getCumulativeMovingAverage() {
-		return svList.sum()/svList.size();
+		return svList.getSum()/svList.size();
 	}
 	
 	/**
@@ -138,7 +139,7 @@ public class MovingAverage {
 	 * @return the moving median value
 	 */
 	public double movingMedianValue() {
-		Vector<Double> list = svList.getVector();
+		List<Double> list = svList.getVector();
 		Collections.sort(list);
 		int listSize = list.size();
 		if (listSize%2 == 0 && listSize > 1) {
