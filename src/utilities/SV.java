@@ -25,7 +25,16 @@ public class SV implements Serializable {
 	private double sum;
 	private double mean;
 	
-	
+	/**Creates an {@link #SV()} with the given numbers
+	 * 
+	 * @param vectorComponents Numbers in the initial vector.
+	 */
+	public SV(Number ... vectorComponents){
+		clear();
+		for(Number n : vectorComponents){
+			this.append(n);
+		}
+	}
 	public SV() {
 		clear();
 	}
