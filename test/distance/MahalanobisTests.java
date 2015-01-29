@@ -59,7 +59,10 @@ public class MahalanobisTests {
 	}
 	
 	public void compare(double[][] expected, double[][] actual, double tolerance) {
+		assertEquals("Same number of rows", expected.length, actual.length);
+		
 		for (int row = 0; row < expected.length; row++) {
+			assertEquals("Same number of cols", expected[row].length, actual[row].length);
 			for (int column = 0; column < expected[row].length; column++) {
 				String message = String.format("Comparing Row %s, Column %d", row, column);
 				assertEquals(message, expected[row][column], actual[row][column], tolerance);
@@ -131,5 +134,52 @@ public class MahalanobisTests {
 				{0.1935d, -.1613d}
 		};
 		compare(expectedInversion, invertedCovariance, 0.0001d);
+	}
+	
+	/**
+	 * Does simple matrix mults
+	 */
+	@Test
+	public void matrixMultTest(){
+		double[][] data = intmath;
+		Mahalanobis calc = setUpMaha(data);
+		
+		double[][] A = { {1,2}, {3, 0} };
+		double[][] B = { {5, 2} };
+		double[][] C = { {2} , {3} };
+		double[][] D = { {2, 9}, {1, 8}};
+		
+		double[][] AxD = { {4, 25}, {6, 27}};
+		double[][] BxA = { {11, 10} };
+		double[][] BxAxD = { {32, 179}};
+		double[][] BxC = { {16} };
+		double[][] DxA = { {29, 4}, {25, 2}};
+		
+		double[][] actAxD = calc.getProduct(A, D);
+		double[][] actBxA = calc.getProduct(B, A);
+		
+		double[][] actBxAxD = calc.getProduct(calc.getProduct(B, A), D);
+		double[][] actBxAxD2 = calc.getProduct(actBxA, D);
+
+		double[][] actBxC = calc.getProduct(B, C);
+		double[][] actDxA = calc.getProduct(D, A);
+		
+		compare(AxD, actAxD, 0d);
+		compare(BxA, actBxA, 0d);
+		
+		compare(BxAxD, actBxAxD, 0d);
+		compare(BxAxD, actBxAxD2, 0d);
+		
+		compare(BxC, actBxC, 0d);
+		compare(DxA, actDxA, 0d);
+	
+		try{
+			double[][] failing = { {1, 2, 3, 4, 5, 6}};
+			double[][] res = calc.getProduct(failing, A);
+			fail("Should have gotten an error");
+		}catch(IllegalArgumentException e){
+			
+		}
+		
 	}
 }

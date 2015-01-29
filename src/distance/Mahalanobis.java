@@ -1,8 +1,5 @@
 package distance;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import utilities.DataFrame;
 import utilities.SV;
 
@@ -60,7 +57,7 @@ public class Mahalanobis {
 		return getDistance(fromPoint, meanVector);
 	}
 	
-	/**Returns the mahalanobis distance from the given two vectors
+	/**Returns the mahalanobis distance from the given two vectors. Assumes the vectors are the same dimensions as the dataset given in the construction of this object.
 	 * 
 	 * @param pointA First vector 
 	 * @param pointB Second vector
@@ -68,8 +65,43 @@ public class Mahalanobis {
 	 */
 	public double getDistance(SV pointA, SV pointB){
 		double[][] inverstedCovariance = this.getCovarianceMatrix();
+		double[][] left = new double [1][pointA.size()];
+		double[][] right = new double [pointA.size()][1];
 		
-		return 0;
+		for(int dim = 0; dim < pointA.size(); dim++){
+			double diff = pointA.get(dim) - pointB.get(dim);
+			left[0][dim] = diff;
+			right[dim][0] = diff;
+		}
+		return getProduct(getProduct(left,  inverstedCovariance), right)[0][0];
+	}
+	
+	/**
+	 * Returns the matrix product of the two given matrixes. Assumes the matrixes are at least 1 x 1 and that the given arrays are not ragged.
+	 * 
+	 * @param matOne First matrix in product.
+	 * @param matTwo Second matrix in product.
+	 * @return The product of the two given matrixes
+	 */
+	public double[][] getProduct(double[][] matOne, double[][] matTwo){
+		double[][] result = new double[matOne.length][matTwo[0].length];
+		for(int resRow = 0; resRow < result.length; resRow++){
+			for(int resCol = 0; resCol< result[0].length; resCol++){
+				double resIn = 0d;
+				double[] leftRow = matOne[resRow];
+				if(matTwo.length != leftRow.length){
+					throw new IllegalArgumentException("Give matrixes won't compatible");
+				}
+				//I can't get the right's col, so let's generate it
+				for(int rightRowNum = 0; rightRowNum < matTwo.length; rightRowNum++){
+					resIn += leftRow[rightRowNum] * matTwo[rightRowNum][resCol];
+				}
+				
+				result[resRow][resCol] = resIn;
+			}
+		}
+		
+		return result;
 	}
 	
 	/**Returns the covariance matrix, it is expected that callers do not modify this*/
