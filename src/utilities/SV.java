@@ -9,8 +9,9 @@ import java.util.Vector;
 
 
 /**
- * Statistical collection helper
- * Ordered
+ * An {@link #SV()} represents an ordered series of data.
+ * 
+ * 
  */
 public class SV implements Serializable {
 
@@ -165,18 +166,18 @@ public class SV implements Serializable {
 		return mean;
 	}
 	
+	/**Returns the unbaiased sample standard deviation of all data points added to this vector
+	 * 
+	 * @return The sample standard deviation
+	 */
 	public Double sd() {
-		
-		Double sumsd = 0d;
-		Double mean = mean();
-		
-		for(Double d : v) {
-			sumsd += Math.pow((d - mean), 2);
-		}
-		
-		return Math.sqrt(sumsd / size());
+		return Math.sqrt(this.var());
 	}
 	
+	/**Returns the unbaiased sample variance of all data points added to this vector
+	 * 
+	 * @return The sample variance
+	 */
 	public Double var() {
 		
 		Double sumsd = 0d;
@@ -186,7 +187,8 @@ public class SV implements Serializable {
 			sumsd += Math.pow((d - mean), 2);
 		}
 		
-		return (sumsd / size());
+		double var = sumsd / (size()-1);
+		return var;
 	}
 
 	
