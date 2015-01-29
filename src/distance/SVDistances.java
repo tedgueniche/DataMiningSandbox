@@ -2,6 +2,7 @@ package distance;
 
 import utilities.SV;
 
+/**A class containing a set of distance measures for SV vectors*/
 public class SVDistances {
 		
 	/**
@@ -24,7 +25,6 @@ public class SVDistances {
 		}
 		
 		return runningDistance/dimensionCount;
-		
 	}
 	
 	/**Returns the city-block (manhattan, taxicab) distance of two points in the dataset. 

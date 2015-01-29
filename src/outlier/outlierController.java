@@ -45,7 +45,7 @@ public class outlierController {
 	public static void main(String...args) {
 		
 		System.out.println("starting");
-		LocalOutlierFactor lof = new LocalOutlierFactor(3, smallConcentrated, SVDistances::distPearson);
+		LocalOutlierFactor lof = new LocalOutlierFactor(3, smallConcentrated, SVDistances::distEuclidian);
 		HashMap<SV, Double> result = lof.LOF();
 		System.out.println(result);
 		
